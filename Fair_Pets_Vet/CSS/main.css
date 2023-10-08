@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Open+Sans:wght@300&display=swap');
+
+header {
+    text-align: left;
+    background-color: #B6E5FF;
+}
+
+.nav-link {
+    color:#363636;
+    font-weight:500;
+}
+
+.nav-link:hover {
+    color:#454545;
+    font-weight:800;
+    filter:drop-shadow(1px 1px 1px #dfc59f);
+}
+
+#navbar {
+    background-color:#FFe8C5;
+    border-bottom-style:solid;
+    border-color:#363636;
+    border-bottom-width:0.15em
+}
+
+main {
+    background-color: #FFFFF3;
+}
+
+form {
+    background-color: #99DBFF;
+    border: #363636;
+    border-width: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+footer {
+    background-color: #FFE8C5;
+}
+
+h1 {
+    color: #363636;
+    font-family: 'Gloria Hallelujah', sans-serif;
+    font-size: 45px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+h2 {
+    color: #363636;
+    font-family: 'Gloria Hallelujah', sans-serif;
+    font-size: 45px;
+    font-weight: bold
+}
+
+h3, h4, h5, h6 {
+    color: #363636;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 30px;
+}
+
+.bgbtn1 {
+    background-color: #B80000;
+    color: #FFE8C5;
+    border: 1px solid #B80000;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.bgbtn1:hover {
+    background-color: #363636;
+}
+
+.bgbtn1:active {
+    background-color: #000000;
+}
+
+.bgbtn2 {
+    background-color: #B80000;
+    color: #FFE8C5;
+    border: 1px solid #B80000;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.bgbtn2:hover {
+    background-color: #363636;
+}
+
+.bgbtn2:active {
+    background-color: #000000;
+}
+
+.divpanel {
+    background-color:#B6E5FF;
+    border-radius:8px;
+    border-style:none
+}
+
+.divpanel-border-top {
+    background-color:#B6E5FF;
+    border-top-left-radius:8px;
+    border-top-right-radius:8px;
+    border-style:none
+}
+
+
+
+.divpanel-border-bot {
+    background-color:#FFE8C5;
+    border-bottom-left-radius:8px;
+    border-bottom-right-radius:8px;
+    border-style:none
+}
+
+
+
+.divpanel:hover, .divpanel-border-top:hover, .divpanel-border-bot:hover {
+    filter:brightness(0.98);
+}
