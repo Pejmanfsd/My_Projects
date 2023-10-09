@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+</head>
+
+<body>
+	
+<center><h2>The Best Bookstore in Montreal!</h2></center>
+<center><hr></center>
+<center><p>
+	Welcome to our Bookstore page!
+</p></center>
+
+
+<center><hr></center>
+<!-- display user name and role -->
+<center><p>
+	User: <span sec:authentication="principal.username"></span>
+	<br><br>
+	Role(s): <span sec:authentication="principal.authorities"></span>
+</p></center>
+<center><hr></center>
+
+<center><div sec:authorize="hasRole('CUSTOMER')">
+
+	<!-- Add a link to point to /customers ... this is for customers -->
+	<p>
+		<button><a th:href="@{/customers}">Available books!</a></button>
+	</p>
+
+</div></center>
+
+<center><div sec:authorize="hasRole('STAFF')">
+
+	<!-- Add a link to point to /leaders ... this is for the staff -->
+	<p>
+		<button><a th:href="@{/leaders}">Add/Remove/Modify Books</a></button><br>
+		(Only for staff and Admins)
+	</p>
+
+</div></center>
+
+<center><div sec:authorize="hasRole('ADMIN')">
+
+	<!-- Add a link to point to /systems ... this is for the admins -->
+
+	<p>
+		<button><a th:href="@{/systems}">A fantastic trip!</a></button><br>
+		(Only for Admins)
+	</p>
+
+</div></center>
+
+<center><hr></center>
+
+<!-- Add a logout button -->
+<center><form action="#" th:action="@{/logout}" method="POST">
+	<input type="submit" value="Logout" />
+</form></center>
+
+</body>
+</html>
