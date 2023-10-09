@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@600&family=Orienta&display=swap');
+
+header {
+    text-align: left;
+    background-color: #078d69;
+}
+
+#hangmanHead{
+    font-family: 'Rubik Wet Paint', cursive;
+}
+
+#title, #progBarLable{
+    font-family: 'IM Fell English SC', serif;
+}
+
+#box{
+    font-family: 'Cherry Bomb One', cursive;
+}
+.bgbtn1 {
+    background-color: #ffe81f;
+    color: #000000;
+    border: 1px solid #000000;
+    border-width: 4px;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+/* start: chang */
+/* set the height of images in header */
+img.headerImg{
+    height: 100px !important;
+}
+
+/* end: chang */
+
+.state-img{
+    max-width: 150px;
+}
