@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Tools! -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>User</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="user.styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    
+</head>
+
+<body>
+    <div class="container-fluid navbar">
+        <a class="navbar-brand" href="#">
+            <img src="/assets/logo.png" width="150" height="60" alt="">
+        </a>
+        <div class="container d-flex align-items-center justify-content-center">
+            <h1> <span id="bank-icon">&#127974;</span> Welcome to Your Profile</h1>
+          </div>
+        <button class="btn btn-secondary btn2 ml-auto my-auto" id="userLogout">Logout</button>
+    </div>
+    <!-- Personal information table -->
+    <div class="container-fluid">
+        <div class="row">
+            <table id="UserInfo" class="table1 mt-6 col-6 col-md-8 text-center text-md-start offset-lg-2 mt-3 mb-3"
+                style="display: none;">
+                <thead">
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Emaill</th>
+                        <th>Address</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table1" id="UserDetailBody">
+                    </tbody>
+            </table>
+            <div class="col-5 offset-2">
+                <!-- Creating a button -->
+                <section class="row">
+                    <button id="profile"
+                        class="btn btn-primary btn1 mt-6 col-md-6 text-center text-md-start offset-3 mt-3 mb-3"
+                        style="display: none;">Back To My Profile</button>
+                </section>
+                <!-- Personal information table -->
+                <section class="row">
+                    <table id="EditUser"
+                        class="table1 mt-6 col-6 col-md-8 text-center text-md-start offset-lg-2 mt-3 mb-3"
+                        style="display: none;">
+                        <thead>
+                            <tr>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Emaill</th>
+                                <th>Address</th>
+                                <th>Passworrd</th>
+                            </tr>
+                        </thead>
+                        <tbody id="EditUserBody">
+                        </tbody>
+                    </table>
+                </section>
+                <!-- Creating a button -->
+                <section class="row">
+                    <div class="table2 mt-6 col-md-6 text-center text-md-start offset-3 mt-3 mb-3">Current
+                        balance:
+                    </div>
+                </section>
+                <!-- Creating a button -->
+                <section class="row">
+                    <div class="table2 mt-6 col-md-6 text-center text-md-start offset-3 mt-3 mb-3" id="ShowBalance">
+                    </div>
+                </section>
+                <section class="row">
+                    <div class="col-12"></div>
+                    <!-- Creating a button -->
+                    <button id="Edit"
+                        class="btn btn-primary btn1 mt-6 col-md-6 text-center text-md-start offset-3 mt-3 mb-3">
+                        Edit My Account
+                    </button>
+                </section>
+                <section class="row">
+                    <!-- Creating a button -->
+                    <button id="Save"
+                        class="btn btn-primary btn1 mt-6 col-md-6 text-center offset-3 text-md-start mt-3 mb-3"
+                        style="display: none;">
+                        Save
+                    </button>
+                </section>
+                <section class="row">
+                    <!-- Creating a button -->
+                    <button id="ShowTransactions"
+                        class="btn btn-primary btn1 mt-6 col-md-6 text-center offset-3 text-md-start mt-3 mb-3">
+                        Transactions
+                    </button>
+                </section>
+                <!-- The box for entering the amount of Deposit/Withdrawal -->
+                <section class="row">
+                    <input id="amount" class="mt-6 col-md-6 text-center offset-3 text-md-start mt-3 mb-3"
+                        style="display: none;" placeholder="Enter the amount of transaction">
+                </section>
+                <section class="row">
+                    <!-- Creating a button -->
+                    <button id="Deposit"
+                        class="btn btn-primary btn1 mt-6 col-md-6 text-center offset-3 text-md-start mt-3 mb-3"
+                        style="display: none;">Deposit</button>
+                </section>
+                <section class="row">
+                    <!-- Creating a button -->
+                    <button id="Withdraw"
+                        class="btn btn-primary btn1 mt-6 col-md-6 text-center offset-3 text-md-start mt-3 mb-3"
+                        style="display: none;">Withdraw</button>
+                </section>
+                <section class="row">
+                    <!-- Error! -->
+                    <div id="notification" style="display: none;"
+                        class="table redMessage mt-6 col-4 col-md-4 text-center text-md-start offset-lg-4 mt-3 mb-3">
+                        Your
+                        withdrawal can't be
+                        more than your balance!</div>
+                </section>
+                <section class="row">
+                    <!-- Creating a button -->
+                    <button id="OKbtn" style="display: none;"
+                        class="btn btn-primary btn2 mt-6 col-2 col-md-2 text-center text-md-start offset-lg-5 mt-3 mb-3">OK</button>
+                </section>
+            </div>
+            <!-- The table showing the transactions of the user -->
+            <div class="col-5 row">
+                <div class="mt-6 col-8 text-center text-md-start offset-lg-1 mt-3 mb-3" id="Transactions"
+                    style="display: none;">
+                    <table class="table table-sizing">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col">Amount</th>
+                                <th scope="col">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="TransactionsBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+       // Do these the moment the page loads!
+        $(document).ready(function () {
+            if (sessionStorage.getItem("user_password")
+            && sessionStorage.getItem("user_id")
+            && (sessionStorage.getItem("user_role") == "user")) {
+                getAcountId(function(){
+                    getBalance();
+                });                
+                refreshUserList("List");
+            } else {
+                window.location.href = "unauthorized.html";
+            }
+        });
+        window.onunload = function () { null };
+
+        // button interactions
+        $("#userLogout").click(function () {
+            sessionStorage.clear();
+             window.location.href = "index.html"; // Redirect to logout page
+             window.history.forward(); 
+        });
+        function getAcountId(callback) {
+            // Let's get datas from other pages!
+            $.ajax({
+                url: "api/accounts/" + sessionStorage.user_id,
+                type: "GET",
+                dataType: "json",
+                error: function (jqxhr, status, errorThrown) {
+                    $("#notification").show();
+                    $('#notification').html(jqxhr.responseText);
+                    $("#OKbtn").show()
+                }
+            }).done(function (accountId) {
+                debugger;
+                sessionStorage.setItem("account_id", accountId.id);
+                sessionStorage.setItem("kind", accountId.kind);
+                sessionStorage.setItem("active", accountId.active);
+                if(callback){
+                    callback();
+                }
+            });
+        }
+        // Receiving The user's personal information from database
+        function refreshUserList(mode) {
+                  $.ajax({
+                url: "api/users/" + sessionStorage.user_id,
+                type: "GET",
+                dataType: "json",
+                error: function (jqxhr, status, errorThrown) {
+                    $("#notification").show();
+                    $('#notification').html(jqxhr.responseText);
+                    $("#OKbtn").show()
+                }
+            }).done(function (userDetails) {
+                if (mode == "List") {
+                    $("#EditUser").hide();
+                    $("#UserInfo").show();
+                    var UserInfo = $("#UserDetailBody");
+                    UserInfo.empty();
+                    var row = "<tr>";
+                    row += "<td>" + userDetails.firstName + "</td>";
+                    row += "<td>" + userDetails.lastName + "</td>";
+                    row += "<td>" + userDetails.email + "</td>";
+                    row += "<td>" + userDetails.address + "</td>";
+                    $("#UserDetailBody").append(row);
+                    var frmTest = $("#frmTest");
+                    frmTest.empty();
+                    var row = "<tr>";
+                }
+                // The condition for editing the user's personal information
+                if (mode == "Edit") {
+                    $("#UserInfo").hide();
+                    $("#EditUser").show();
+                    $("#Save").show();
+
+                    var UserInfo = $("#EditUserBody");
+                    UserInfo.empty();
+                    var row = "<tr>";
+                    row += "<td><input id = 'firstName' value=" + userDetails.firstName + "></td>";
+                    row += "<td><input id = 'lastName' value=" + userDetails.lastName + "></td>";
+                    row += "<td><input id = 'email' value=" + userDetails.email + "></td>";
+                    row += "<td><input id = 'address' value=" + userDetails.address + "></td>";
+                    row += "<td><input id = 'password' value=" + userDetails.password + "></td>";
+                    row += "</tr>";
+                    $("#EditUserBody").append(row);
+                }
+            });
+            $("#Save").hide();
+        }
+        // assigning date for each transaction
+        function sendTransactions(amount) {
+            var nowDate = new Date();
+            nowRefreshDate = nowDate.toLocaleDateString("en-CA");
+            new Date().toISOString().slice(0, 10).replace('T', ' ');
+            var user = {
+                accountId: sessionStorage.account_id,
+                amount: amount,
+                dateTime: nowRefreshDate,
+                type: 'credit'
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/api/transactions/',
+                data: JSON.stringify(user),
+                contentType: 'application/json',
+                success: function (rdata) {
+                    getTransactions();
+                    updateAccountBalance();
+                },
+                error: function () {
+                    $("#notification").show();
+                    $('#notification').html(jqxhr.responseText);
+                    $("#OKbtn").show()
+                    //alert("Transaction error!");
+                }
+            });
+        }
+        // The function for the balance button
+        $("#ShowBalance").click(function () {
+            // $('#notification').empty();
+            getBalance();
+        });
+        // Explaining what the function in the balance button does
+        function getBalance() {
+            $.ajax({
+                url: "api/transactions/" + sessionStorage.account_id,
+                type: "GET",
+                dataType: "json",
+                error: function (jqxhr, status, errorThrown) {
+                    $("#notification").show();
+                    $('#notification').html(jqxhr.responseText);
+                    $("#OKbtn").show()
+                }
+            }).done(function (TransactionList) {
+                let balance = 0
+                for (let t of TransactionList)
+                    balance += parseFloat(t.amount);
+                sessionStorage.setItem("balance", balance);
+                $('#ShowBalance').empty();
+                $('#ShowBalance').append(balance)
+            });
+        };
+        function getTransactions() {
+            $.ajax({
+                url: "api/transactions/" + sessionStorage.account_id,
+                type: "GET",
+                dataType: "json",
+                error: function (jqxhr, status, errorThrown) {
+                    $('#notification').show();
+                    $('#notification').html(jqxhr.responseText);
+                    $("#OKbtn").show()
+                }
+            }).done(function (TransactionList) {
+                getBalance();
+                var TransactionDetails = $("#TransactionsBody");
+                TransactionDetails.empty();
+              
+                for (var i = 0; i < TransactionList.length; i++) {
+                    var transaction = TransactionList[i];
+                    var row = "<tr>";
+                    row += "<td>" + transaction.amount + "</td>";
+                    row += "<td>" + transaction.dateTime.slice(0 , -9)+ "</td>";
+                    row += "</tr>";
+                    $("#TransactionsBody").append(row);
+                }
+            });
+        }
+        // The transaction process
+        $("#Edit").click(function () {
+            refreshUserList("Edit");
+        });
+        $("#ShowTransactions").click(function () {
+            $(this).hide();
+            $("#EditUser").hide();
+            $("#Edit").hide();
+            $("#save").hide();
+            $("#amount").show();
+            $("#UserInfo").hide();
+            $("#Transactions").show();
+            $("#Withdraw").show();
+            $("#Deposit").show();
+            $("#profile").show();
+            getTransactions();
+        });
+        // The Withdraw process
+        $("#Withdraw").click(function () {
+            var amount = $('#amount').val();
+            if (parseFloat(amount) < parseFloat(sessionStorage.balance)) {
+                sendTransactions(-parseFloat(amount));
+            } else {
+                $('#notification').show();
+                $("#OKbtn").show();
+                //alert("Your withdrawal can't be more than your balance!")
+            }
+        });
+        // The Deposit process
+        $("#Deposit").click(function () {
+            var amount = $('#amount').val();
+            sendTransactions(amount);
+        });
+        $("#profile").click(function () {
+            window.location.href = "user.html";
+        });
+        // The Ok button after receiving the error of having a withdrawal more than the balance
+        $("#OKbtn").click(function () {
+            $('#notification').hide();
+            $(this).hide();
+        });
+        // The button for saving the information after editing
+        $("#Save").click(function () {
+            var user = {
+                email: $('#email').val(),
+                password: $('#password').val(),
+                firstName: $('#firstName').val(),
+                lastName: $('#lastName').val(),
+                address: $('#address').val(),
+                isRegistered: 1
+            }
+            $.ajax({
+                type: 'PUT',
+                url: '/api/users/' + sessionStorage.user_id,
+                data: JSON.stringify(user),
+                contentType: 'application/json',
+                success: function (rdata) {
+                    refreshUserList("List");
+                },
+                error: function () {
+                    $('#notification').show();
+                    $('#notification').html("User Editing error!");
+                    $("#OKbtn").show()
+                }
+            });
+        });
+        // router.put("/accounts/:id([0-9]+)", accounts.update);
+        function updateAccountBalance () {
+            var account = {
+                id : sessionStorage.account_id,
+                kind : sessionStorage.kind,
+                currentBalance : sessionStorage.balance,
+                active : 1,
+                userId : sessionStorage.user_id
+            }
+            debugger;
+            $.ajax({
+                type: 'PUT',
+                url: '/api/accounts/' + sessionStorage.user_id,
+                data: JSON.stringify(account),
+                contentType: 'application/json',
+                success: function (rdata) {
+                    //alert("success");
+                },
+                error: function () {
+                    $('#notification').show();
+                    $('#notification').html("account was not updated");
+                    $("#OKbtn").show()
+                }
+            });
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>

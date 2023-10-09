@@ -1,0 +1,41 @@
+.navbar {
+    border-bottom: solid grey 3px;
+    background-color: rgb(177, 220, 255);
+  }
+
+  
+.vl {
+        border-left: 1px solid gray;
+        height: 500px;
+    }
+
+    #login_row {
+        margin-top: 100px;
+    }
+
+    .login {
+        margin-top: 75px;
+
+    }
+
+    #btnLogin,
+    #btnRegister {
+        margin-top: 50px;
+        width: 50%;
+    }
+
+    #btnLogin {
+        margin-top: 100px;
+    }
+
+    #deleteIcon {
+        cursor: pointer;
+        background-color: red;
+    }
+
+    .bank-icon {
+        size: 5rem
+    }
+
+
+    

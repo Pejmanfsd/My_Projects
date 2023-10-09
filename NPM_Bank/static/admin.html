@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Admin</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="admin.styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.js"></script>
+</head>
+
+<body>
+    <div class="container-fluid navbar">
+        <a class="navbar-brand" href="#">
+            <img src="/assets/logo.png" width="150" height="60" alt="">
+        </a>
+        <h1 class="mx-auto">Welcome to NPM Bank</h1>
+        <button class="btn btn-secondary ml-auto my-auto" id="userLogout">Logout</button>
+    </div>
+
+    <div class="row c-big">
+
+        <!-- LEFT PANEL -->
+        <div class="col-md-3 col-12 row">
+
+            <!-- ADMIN OPTIONS -->
+            <div class="col-md-12 col-12 left-pane pane-style">
+                <button id="showUsersButton" class="btn btn-primary">Users</button>
+                <button id="showAccountsButton" class="btn btn-primary">Accounts</button>
+                <button id="showTransactionsButton" class="btn btn-primary">Transactions</button>
+                <button id="currencyConvertButton" class="btn btn-primary">Currency</button>
+                <button id="fileUploadButton" class="btn btn-primary">Upload File</button>
+                <button id="memoButton" class="btn btn-primary">Memo</button>
+            </div>
+
+            <!-- MID MENU UI -->
+            <div class="col-md-12 col-12 lp-menu container mb-2 pane-style">
+                <div class="row align-items-start"></div>
+                <div class="col">
+                    <div id="memo-box" class="mb-2">
+                        <div class="d-flex flex-row align-items-center">
+                            <p class="mr-2">Add short memos below, clear, or upload</p>
+                        </div>
+                        <textarea id="memo-text" rows="7" placeholder="Enter your text"></textarea>
+                        <button type="button" id="memoSendBtn" class="btn btn-sm">Add:</button>
+                        <button type="button" id="memoClearBtn" class="btn btn-sm">Clear:</button>
+                        <button type="button" id="memoUploadText" class="btn btn-sm">Upload:</button>
+
+                    </div>
+
+                </div>
+                <!-- FILE MENU -->
+                <div class="row my-3 justify-content-center" id="file-menu" style="display: none">
+                    <div class="col-6 my-3 d-flex flex-column justify-content-center">
+                        <div id="viewAddEditPane">
+                            Filename:<input type="text" name="title"><br>
+                            <br>
+                            <br>
+                            <input class="" type="file" name="file"><br>
+                            <br>
+                            <button class="fileBtn" id="saveOrAdd">Upload (add)</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- CURRENCY MENU -->
+                <div id="currency-menu" style="display: none">
+                    <div class="d-flex flex-column justify-content-center">
+                        <p class="mt-1 mb-0">Convert Currency:</p>
+                        <input type="number" id="currencyInput" placeholder="499.99">
+                        <select id="currencyFrom" class="currencySelectBox">
+                            <option value="---">---</option>
+                            <option value="cad">CAD (Canadian Dollar)</option>
+                            <option value="usd">USD (US Dollar)</option>
+                            <option value="eur">EUR (Euro)</option>
+                            <option value="aud">AUD (Australian Dollar)</option>
+                            <option value="chf">CHF (Swiss Franc)</option>
+                            <option value="cnh">CNY (Renminbi)</option>
+                            <option value="gbp">GBP (Sterling)</option>
+                            <option value="hkd">HKD (Hong Kong Dollar)</option>
+                            <option value="jpy">JPY (Japanese Yen)</option>
+                            <option value="nzd">NZD (New Zealand Dollar)</option>
+                        </select>
+                        <h6 class="mx-2">TO</h6>
+                        <select id="currencyTo" class="currencySelectBox">
+                            <option value="---">---</option>
+                            <option value="cad">CAD (Canadian Dollar)</option>
+                            <option value="usd">USD (US Dollar)</option>
+                            <option value="eur">EUR (Euro)</option>
+                            <option value="aud">AUD (Australian Dollar)</option>
+                            <option value="chf">CHF (Swiss Franc)</option>
+                            <option value="cnh">CNY (Renminbi)</option>
+                            <option value="gbp">GBP (Sterling)</option>
+                            <option value="hkd">HKD (Hong Kong Dollar)</option>
+                            <option value="jpy">JPY (Japanese Yen)</option>
+                            <option value="nzd">NZD (New Zealand Dollar)</option>
+                        </select>
+                        <button id="currencyGoButton">GO</button>
+                        <div class="row ml-3">
+                            <p id="currencyResult" class="my-1">------------</p>
+                            <button type="button" id="currencyAddBtn" class="btn btn-sm"
+                                style="display:none">Add:</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LOWER PANE - NO FUNCTION -->
+            <div class="col-md-12 col-12 lp-lower mb-2 pane-style d-flex align-items-center justify-content-center">
+                <div id="memoContainer"></div>
+            </div>
+
+        </div>
+
+        <!-- RIGHT PANEL -->
+        <div class="col-md-9 col-sm-3 right-pane pane-style">
+
+            <!-- RP-TOP -->
+            <div id="rp-top" class="row">
+                <table id="accountTable" class="table mt-6 col-12" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th data-sortable="true">Account ID</th>
+                            <th data-sortable="true">User Name</th>
+                            <th data-sortable="true">Kind</th>
+                            <th data-sortable="true">Current Balance</th>
+                            <th data-sortable="true">Active</th>
+                        </tr>
+                    </thead>
+                    <tbody id="accountTableBody">
+                    </tbody>
+                </table>
+                <table id="transactionTable" class="table" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th data-sortable="true">Transaction ID</th>
+                            <th data-sortable="true">Account ID</th>
+                            <th data-sortable="true">Amount</th>
+                            <th data-sortable="true">Date Time</th>
+                            <th data-sortable="true">Type</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactionTableBody">
+                    </tbody>
+                </table>
+                <table id="userTable" class="table" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th data-sortable="true">User ID</th>
+                            <th data-sortable="true">First Name</th>
+                            <th data-sortable="true">Last Name</th>
+                            <th data-sortable="true">Role</th>
+                            <th data-sortable="true">Registration</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userTableBody">
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- RP-BOT -->
+            <div id="rp-bot" class="row">
+                <div class="container">
+
+
+                    <!-- USER rp-bot INFO -->
+                    <div id="rp-user" class="row align-items-center" style="display: none;">
+                        <div class="rp-getinfo d-flex flex-column justify-content-center align-items-end">
+                            <div class="form-group">
+                                <label for="tfFirstName">First Name:</label>
+                                <input type="text" id="tfFirstName">
+                            </div>
+                            <div class="form-group">
+                                <label for="tfLastName">Last Name:</label>
+                                <input type="text" id="tfLastName">
+                            </div>
+                            <div class="form-group">
+                                <label for="tfAddress">Address:</label>
+                                <input type="text" id="tfAddress">
+                            </div>
+                            <div class="form-group">
+                                <label for="tfEmail">Email:</label>
+                                <input type="text" id="tfEmail">
+                            </div>
+                        </div>
+                        <div class="col-2 d-flex flex-column ">
+                            <select id="comboActive">
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                            </select>
+                            <br>
+                            <div class="form-group">
+                                <label for="tfRole">Role</label>
+                                <input type="text" class="form-control" id="tfRole" disabled>
+                                <p id="user-confirm"></p>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary enableEditBtn">Enable Edit</button>
+                        <button class="btn btn-primary confirmEditBtn" style="display:none">Confirm Edit</button>
+                        <button class="btn btn-danger deleteUserBtn" style="display:none">Delete User</button>
+                    </div>
+                    <!-- ACCOUNT rp-bot INFO -->
+                    <div id="rp-account" class="row align-items-start" style="display: none;">
+                        <div class="rp-getinfo col-2 d-flex flex-column justify-content-center align-items-start">
+                            <div class="form-group">
+                                <input type="text" id="tfAccName" placeholder="Username">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form control" id="tfAccBalance" placeholder="Balance">
+                            </div>
+                            <button class="btn btn-primary enableEditBtn mt-4">Enable Edit</button>
+                            <button class="btn btn-primary confirmEditBtn mt-4" style="display:none">Confirm
+                                <button class="btn btn-danger deleteAccountBtn" style="display:none">Delete
+                                    Account</button>
+
+                        </div>
+                        <div id="rp-accInfo" class="col-2 d-flex flex-column align-items-end ">
+                            <br>
+                            <select id="comboAccActive">
+                                <option value="Active">Active</option>
+                                <option value="Inactive">Inactive</option>
+                            </select>
+                            <br>
+                            <select id="comboAccKind">
+                                <option value="checking">Checking</option>
+                                <option value="saving">Saving</option>
+                                <option value="credit">Credit</option>
+                            </select>
+
+                        </div>
+                        <div class="col-7 offset-1 accTransactions h-100 w-100">
+                            <table id="accTransactionTable" class="table">
+                                <thead>
+                                    <tr>
+                                        <th data-sortable="true">Transaction ID</th>
+                                        <th data-sortable="true">Amount</th>
+                                        <th data-sortable="true">Date Time</th>
+                                        <th data-sortable="true">Type</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="accTransactionTableBody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- TRANSACTION rp-bot INFO -->
+                    <div id="rp-transaction" class="row align-items-center" style="display: none;">
+                        <div class="rp-getinfo d-flex flex-column justify-content-center align-items-end">
+                            <button class="btn btn-primary enableEditBtn">Enable Edit</button>
+                            <button class="btn btn-primary confirmEditBtn" style="display:none">Confirm Edit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+
+            $(document).ready(function () {
+                // Check if the user is authorized as an admin before displaying the content
+                if (sessionStorage.getItem("user_password") && sessionStorage.getItem("user_id")
+                    && (sessionStorage.getItem("user_role") == "admin")) {
+                    // User is authorized as an admin
+                    // Proceed with displaying the content of the admin.html page
+                    $(".left-pane button").click(function () {
+                        // Remove the 'selected' class from all buttons
+                        $(".left-pane button").removeClass("selected");
+                        // Add the 'selected' class to the clicked button
+                        $(this).addClass("selected");
+                    });
+
+                    // TABLE SORTING
+                    function sortTable(table, columnIndex) {
+                        var rows = table.find('tbody tr').get();
+                        rows.sort(function (a, b) {
+                            var aValue = $(a).find('td').eq(columnIndex).text();
+                            var bValue = $(b).find('td').eq(columnIndex).text();
+                            return aValue.localeCompare(bValue);
+                        });
+                        table.find('tbody').empty().append(rows);
+                    }
+
+                    $('table thead th[data-sortable="true"]').click(function () {
+                        var table = $(this).closest('table');
+                        var columnIndex = $(this).index();
+                        sortTable(table, columnIndex);
+                    });
+
+                    // BUTTON INTERACTIONS
+                    $("#userLogout").click(function () {
+                        sessionStorage.clear();
+                        window.location.href = "index.html"; // Redirect to the logout page
+                    });
+
+                    $(".enableEditBtn").click(function () {
+                        enableEdit();
+                        $(".enableEditBtn").hide();
+                        $(".confirmEditBtn").show();
+                        $(".deleteUserBtn").show();
+                        $(".deleteAccountBtn").show();
+                    });
+
+                    $(".confirmEditBtn").click(function () {
+                        var id = $("#rp-top .bold-row td:first").text();
+                        confirmEdit(id);
+                        $("#enableEditBtn").show();
+                        $("#confirmEditBtn").hide();
+                    })
+
+                    $(".deleteUserBtn").click(function () {
+                        var id = $("#rp-top .bold-row td:first").text();
+                        var confirmation = confirm("Delete user with ID: " + id + "?");
+                        if (!confirmation) {
+                            return;
+                        }
+                        deleteUser(id);
+                        $("#enableEditBtn").show();
+                        $("#confirmEditBtn").hide();
+                    })
+
+                    $(".deleteAccountBtn").click(function () {
+                        var id = $("#rp-top .bold-row td:first").text();
+                        var confirmation = confirm("Delete account with ID: " + id + "?");
+                        if (!confirmation) {
+                            return;
+                        }
+                        deleteAccount(id);
+                        $("#enableEditBtn").show();
+                        $("#confirmEditBtn").hide();
+                    })
+
+                    // UPLOAD FILE
+                    $("#saveOrAdd").click(function () {
+                        let titleVal = $("input[name=title]").val();
+                        console.log($("input[name=file]").prop('files'));
+                        let file = $("input[name=file]").prop('files')[0];
+                        let filenameVal = file.name;
+                        let mimeTypeVal = file.type;
+                        let reader = new FileReader();
+                        reader.onload = function () {
+                            docObj = { title: titleVal, mimeType: mimeTypeVal, data: btoa(reader.result) }
+                            $.ajax({
+                                url: "/api/documents",
+                                type: "POST",
+                                dataType: "json",
+                                data: docObj,
+                                error: function (jqxhr, status, errorThrown) {
+                                    alert("AJAX error: " + jqxhr.responseText);
+                                }
+                            }).done(function () {
+                                refreshList();
+                            });
+                        };
+                        reader.onerror = function () {
+                            console.log(reader.error);
+                            alert(reader.error);
+                        };
+                        reader.readAsBinaryString(file);
+                        return;
+                    });
+                    
+                    // UPLOAD MEMO
+                    $("#memoUploadText").click(function () {
+                        let currentDate = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+                        let memoTitle = currentDate + "id" + sessionStorage.getItem("user_id") + "memo";
+                        let memoText = $("#memo-text").val();
+                        let memoMimeType = "text/plain";
+                        let memoData = btoa(memoText);
+                        let memoUpload = {
+                            title: memoTitle,
+                            mimeType: memoMimeType,
+                            data: memoData,
+                        };
+                        $.ajax({
+                            url: "/api/documents",
+                            type: "POST",
+                            dataType: "json",
+                            data: memoUpload,
+                            error: function (jqxhr, status, errorThrown) {
+                                alert("AJAX error: " + jqxhr.responseText);
+                            }
+                        }).done(function () {
+                        });
+                    });
+
+                    function deleteUser(id) {
+                        $.ajax({
+                            url: "/api/users/" + id,
+                            type: "DELETE",
+                            dataType: "json",
+                            error: function (jqxhr, status, errorThrown) {
+                                alert("AJAX error: " + jqxhr.responseText);
+                            }
+                        }).done(function () {
+                            //Success
+                            refreshUsersList();
+                        });
+                    }
+
+                    function deleteAccount(id) {
+                        $.ajax({
+                            url: "/api/accounts/" + id,
+                            type: "DELETE",
+                            dataType: "json",
+                            error: function (jqxhr, status, errorThrown) {
+                                alert("AJAX error: " + jqxhr.responseText);
+                            }
+                        }).done(function () {
+                            //Success
+                            refreshAccountsList();
+                        })
+                    }
+
+                    $("#showUsersButton").click(function () {
+                        $(".rp-getinfo").find("input, select").val("").prop("disabled", false);
+                        $("#userTable").toggle();
+                        $("#rp-user").toggle();
+                        $("#accountTable").hide();
+                        $("#rp-account").hide();
+                        $("#transactionTable").hide();
+                        $("#rp-transaction").hide();
+                        $(".enableEditBtn").show();
+                        $(".deleteAccountBtn").hide();
+                        $(".deleteUserBtn").hide();
+                        $(".confirmEditBtn").hide();
+                        refreshUsersList();
+                    });
+
+                    $("#showAccountsButton").click(function () {
+                        $(".rp-getinfo").find("input, select").val("").prop("disabled", false);
+                        $("#accountTable").toggle();
+                        $("#rp-account").toggle()
+                        $("#userTable").hide();
+                        $("#rp-user").hide();
+                        $("#transactionTable").hide();
+                        $("#rp-transaction").hide();
+                        $(".enableEditBtn").show();
+                        $(".deleteAccountBtn").hide();
+                        $(".deleteUserBtn").hide();
+                        $(".confirmEditBtn").hide();
+                        refreshAccountsList();
+                    });
+
+                    $("#showTransactionsButton").click(function () {
+                        $(".rp-getinfo").find("input, select").val("").prop("disabled", false);
+                        $("#transactionTable").toggle();
+                        $("#rp-transaction").toggle();
+                        $("#userTable").hide();
+                        $("#rp-user").hide();
+                        $("#accountTable").hide();
+                        $("#rp-account").hide();
+                        $(".enableEditBtn").hide();
+                        $(".deleteUserBtn").hide();
+                        $(".deleteAccountBtn").hide();
+                        $(".confirmEditBtn").hide();
+                        refreshTransactionsList();
+                    });
+
+                    $("#currencyConvertButton").click(function () {
+                        $("#currency-menu").toggle();
+                        $("#memo-box").hide();
+                        $("#file-menu").hide();
+                    });
+
+                    $("#fileUploadButton").click(function () {
+                        $("#currency-menu").hide();
+                        $("#memo-box").hide();
+                        $("#file-menu").toggle();
+                    });
+
+                    $("#memoButton").click(function () {
+                        $("#currency-menu").hide();
+                        $("#memo-box").toggle();
+                        $("#file-menu").hide();
+                    });
+
+                    $("#currencyGoButton").click(function () {
+                        var currencyIn = $("#currencyFrom").val();
+                        var currencyOut = $("#currencyTo").val();
+                        getConvertedCurrency(currencyIn, currencyOut, function (result) {
+                            $("#currencyResult").text(result);
+                        });
+                    });
+
+                    // Foreign Currency API
+                    function getConvertedCurrency(currencyIn, currencyOut, response) {
+                        if ($("#currencyInput").val() < 0 || !/^\d+$/.test($("#currencyInput").val())) {
+                            //Invalid
+                            return;
+                        }
+                        $("#currencyAddBtn").show();
+                        var currencyUrl = `https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/${currencyIn}/${currencyOut}.json`;
+                        $.getJSON(currencyUrl)
+                            .done(function (json) {
+                                var exchangeRate = Object.values(json)[1];
+                                var inputValue = $("#currencyInput").val();
+                                convertedValue = (exchangeRate * inputValue).toFixed(2);
+                                response(currencyIn.toUpperCase() + " to " + currencyOut.toUpperCase() + ":  " + convertedValue + "  (Rate: " + exchangeRate + ")");
+                            })
+                            .fail(function (jqxhr, textStatus, error) {
+                                alert("AJAX error: " + jqxhr.responseText);
+                            });
+                    }
+
+                    // Row select interaction
+                    $("#accountTableBody, #transactionTableBody, #userTableBody").on("click", "tr", function () {
+                        selectRow(this);
+                    });
+
+                    function selectRow(row) {
+                        var selectedRow = document.querySelector(".bold-row");
+                        if (selectedRow) {
+                            selectedRow.classList.remove("bold-row");
+                            var selectedCells = selectedRow.querySelectorAll("td");
+                            for (var i = 0; i < selectedCells.length; i++) {
+                                selectedCells[i].classList.remove("bold-cell");
+                            }
+                        }
+                        row.classList.add("bold-row");
+                        var cells = row.querySelectorAll("td");
+                        for (var i = 0; i < cells.length; i++) {
+                            cells[i].classList.add("bold-cell");
+                        }
+                        var id = row.cells[0].innerText;
+                        if ($("#rp-account").is(":visible")) {
+                            getAccountDetails(id);
+                            getAccTransactionsDetails(id);
+                        }
+                        else if ($("#rp-user").is(":visible")) {
+                            getUserDetails(id);
+                        }
+                        else if ($("#rp-transaction").is(":visible")) {
+                            getTransactionDetails(id);
+                        }
+                        $(".confirmEditBtn").hide();
+                        $(".deleteUserBtn").hide();
+                        $(".enableEditBtn").show();
+                    }
+
+
+                    function enableEdit() {
+                        //user
+                        $("#tfFirstName").prop("disabled", false);
+                        $("#tfLastName").prop("disabled", false);
+                        $("#tfAddress").prop("disabled", false);
+                        $("#tfEmail").prop("disabled", false);
+                        $("#comboActive").prop("disabled", false);
+                        //account
+                        $("#comboAccKind").prop("disabled", false);
+                        $("#comboAccActive").prop("disabled", false);
+                    }
+
+                    function disableEdit() {
+                        //user
+                        $("#tfFirstName").prop("disabled", true);
+                        $("#tfLastName").prop("disabled", true);
+                        $("#tfAddress").prop("disabled", true);
+                        $("#tfEmail").prop("disabled", true);
+                        $("#comboActive").prop("disabled", true);
+                        $("#tfRole").prop("disabled", true);
+                        //account
+                        $("#comboAccKind").prop("disabled", true);
+                        $("#tfAccBalance").prop("disabled", true);
+                        $("#comboAccActive").prop("disabled", true);
+
+                    }
+
+
+                    function confirmEdit(id) {
+                        if ($("#rp-user").is(":visible")) {
+                            $.ajax({
+                                url: '/api/users/' + id,
+                                type: 'GET',
+                                success: function (user) {
+                                    const isActive = ($("#comboActive").val() === "Active") ? 1 : 0;
+                                    var updatedUser = {
+                                        firstName: $("#tfFirstName").val(),
+                                        lastName: $("#tfLastName").val(),
+                                        address: $("#tfAddress").val(),
+                                        email: $("#tfEmail").val(),
+                                        role: $("#tfRole").val(),
+                                        password: user.password,
+                                        isRegistered: isActive
+                                    };
+
+                                    // Make the PUT request to update the user
+                                    $.ajax({
+                                        url: '/api/users/' + id,
+                                        type: 'PUT',
+                                        data: JSON.stringify(updatedUser),
+                                        contentType: "application/json",
+                                        success: function (data) {
+                                            // alert("User updated successfully");
+                                            refreshUsersList();
+                                            disableEdit();
+                                        },
+                                        error: function (jqxhr, status, errorThrown) {
+                                            $('#memo-text').val('Error occurred: ' + jqxhr.responseText);
+                                        }
+                                    });
+                                },
+                                error: function (jqxhr, status, errorThrown) {
+                                    alert("AJAX error: " + jqxhr.responseText);
+                                }
+                            });
+                        }
+                        else if ($("#rp-account").is(":visible")) {
+                            const accKind = $("#comboAccKind").val();
+                            const accActive = ($("#comboAccActive").val() === "Active") ? 1 : 0;
+                            var updatedAccount = {
+                                kind: accKind,
+                                active: accActive,
+                                currentBalance: $("#tfAccBalance").val(),
+                            };
+                            $.ajax({
+                                type: 'PUT',
+                                url: '/api/accounts/' + id,
+                                data: JSON.stringify(updatedAccount),
+                                contentType: "application/json",
+                                success: function (data) {
+                                    refreshAccountsList();
+                                    disableEdit();
+                                }
+                            })
+                        }
+                    }
+
+
+
+                    function getUserDetails(id) {
+                        $.ajax({
+                            url: "/api/users/" + id,
+                            type: "GET",
+                            dataType: "json",
+                            error: function (jqxhr, status, errorThrown) {
+                                alert("AJAX error: " + jqxhr.responseText);
+                            }
+                        }).done(function (user) {
+                            $("#tfFirstName").val(user.firstName);
+                            $("#tfLastName").val(user.lastName);
+                            $("#tfAddress").val(user.address);
+                            $("#tfEmail").val(user.email);
+                            $("#tfRole").val(user.role);
+                            if (user.isActive) {
+                                $("#comboActive").val("Active");
+                            } else {
+                                $("#comboActive").val("Inactive");
+                            }
+                            disableEdit()
+                        });
+                    }
+
+                    function getActiveStatus(active) {
+                        return active === 1;
+                    }
+
+                    function getAccountDetails(id) {
+                        var accountName = $("#rp-top .bold-row td:eq(1)").text();
+                        $.ajax({
+                            url: "/api/accounts/" + id,
+                            type: "GET",
+                            dataType: "json",
+                            error: function (jqxhr, status, errorThrown) {
+                                alert("AJAX error: " + jqxhr.responseText);
+                            }
+
+                        }).done(function (account) {
+                            $("#tfAccName").val(accountName);
+                            $("#comboAccKind").val(account.kind);
+                            $("#tfAccBalance").val(account.currentBalance);
+                            if (account.active.data == 1) {
+                                $("#comboAccActive").val("Active");
+                            } else {
+                                $("#comboAccActive").val("Inactive");
+                            }
+                            disableEdit()
+                        });
+                    }
+
+                    // Get all transactions by Account Id
+                    function getAccTransactionsDetails(id) {
+                        $.ajax({
+                            url: "/api/transactions/" + id,
+                            type: "GET",
+                            dataType: "json",
+                            error: function (status, errorThrown) {
+                                return null;
+                            }
+                        }).done(function (transactions) {
+                            console.log(transactions);
+                            var accTransactionTableBody = $("#accTransactionTableBody");
+                            accTransactionTableBody.empty();
+
+                            for (var i = 0; i < transactions.length; i++) {
+                                var transaction = transactions[i];
+                                var row = "<tr onclick='selectTransaction(" + transaction.id + ")'>";
+                                row += "<td>" + transaction.id + "</td>";
+                                row += "<td>" + transaction.amount + "</td>";
+                                row += "<td>" + transaction.dateTime + "</td>";
+                                row += "<td>" + transaction.type + "</td>";
+                                row += "</tr>";
+                                accTransactionTableBody.append(row);
+                            }
+                        });
+                    }
+
+                    function getActiveStatus(active) {
+                        const isActive = active === 1;
+                        return isActive ? "<span class='badge badge-success'>Approved</span>" : "<span class='badge badge-secondary'>Not Approved</span>";
+                    }
+
+
+                    // Get all accounts
+                    function refreshAccountsList() {
+                        $("#tfAccName").prop("disabled", true);
+                        $("#tfAccBalance").prop("disabled", true);
+                        $("#comboAccActive").prop("disabled", true);
+                        $("#comboAccKind").prop("disabled", true);
+                        $.ajax({
+                            url: "/api/accounts",
+                            type: "GET",
+                            dataType: "json",
+                            error: function (jqxhr, status, errorThrown) {
+                                alert("AJAX error: " + jqxhr.responseText);
+                            }
+                        }).done(function (accounts) {
+                            var accountTableBody = $("#accountTableBody");
+                            accountTableBody.empty();
+
+                            for (var i = 0; i < accounts.length; i++) {
+                                var account = accounts[i];
+                                var row = "<tr onclick='selectAccount(" + account.AccountID + ")'>";
+                                row += "<td>" + account.accountId + "</td>";
+                                row += "<td>" + account.userName + "</td>";
+                                row += "<td>" + account.kind + "</td>";
+                                row += "<td>" + account.currentBalance + "</td>";
+                                row += "<td>" + getActiveStatus(account.active.data[0]) + "</td>";
+                                row += "</tr>";
+                                accountTableBody.append(row);
+                            }
+                        });
+                    }
+
+                    function refreshUsersList() {
+                        $("#tfFirstName").prop("disabled", true);
+                        $("#tfLastName").prop("disabled", true);
+                        $("#tfAddress").prop("disabled", true);
+                        $("#tfEmail").prop("disabled", true);
+                        $("#comboActive").prop("disabled", true);
+                        $.ajax({
+                            url: "/api/users",
+                            type: "GET",
+                            dataType: "json",
+                            error: function (jqxhr, status, errorThrown) {
+                                alert("AJAX error: " + jqxhr.responseText);
+                            }
+                        }).done(function (users) {
+                            var userTableBody = $("#userTableBody");
+                            userTableBody.empty();
+
+                            for (var i = 0; i < users.length; i++) {
+                                var user = users[i];
+                                var row = "<tr>";
+                                row += "<td>" + user.id + "</td>";
+                                row += "<td>" + user.firstName + "</td>";
+                                row += "<td>" + user.lastName + "</td>";
+                                row += "<td>" + user.role + "</td>";
+                                row += "<td>" + getActiveStatus(user.isRegistered.data[0]) + "</td>";
+                                row += "</tr>";
+                                userTableBody.append(row);
+                            }
+                        });
+                    }
+
+                    // Get all transactions
+                    function refreshTransactionsList() {
+                        $.ajax({
+                            url: "/api/transactions",
+                            type: "GET",
+                            dataType: "json",
+                            error: function (jqxhr, status, errorThrown) {
+                                alert("AJAX error: " + jqxhr.responseText);
+                            }
+                        }).done(function (transactions) {
+                            var transactionTableBody = $("#transactionTableBody");
+                            transactionTableBody.empty();
+
+                            for (var i = 0; i < transactions.length; i++) {
+                                var transaction = transactions[i];
+                                var row = "<tr onclick='selectTransaction(" + transaction.id + ")'>";
+                                row += "<td>" + transaction.id + "</td>";
+                                row += "<td>" + transaction.accountId + "</td>";
+                                row += "<td>" + transaction.amount + "</td>";
+                                row += "<td>" + transaction.dateTime + "</td>";
+                                row += "<td>" + transaction.type + "</td>";
+                                row += "</tr>";
+                                transactionTableBody.append(row);
+                            }
+                        });
+                    }
+
+                    // Low Left Pane Memo Interaction
+                    $(".lp-lower").click(function () {
+                        var colors = getRandomColor();
+                        $(this).css({
+                            "background-color": colors.color,
+                            "color": colors.oppositeColor,
+                            "background-image": "none"
+                        });
+                    });
+
+                    $("#memoSendBtn").click(function () {
+                        if ($("#memo-text").val().length > 40) {
+                            return;
+                        }
+                        var memoText = $("#memo-text").val();
+                        $("#memoContainer").append("| " + memoText + " ");
+                        $("#memo-text").val("");
+                    })
+
+
+                    $("#currencyAddBtn").click(function () {
+                        var currencyText = $("#currencyResult").text();
+                        $("#memoContainer").append($("#currencyAddBtn").val() + currencyText + " ");
+                        $("#currencyResult").text("");
+                        $("#currencyAddBtn").hide();
+                    })
+
+                    $("#memoClearBtn").click(function () {
+                        $("#memoContainer").text("");
+                    })
+
+                    function getRandomColor() {
+                        var letters = "0123456789ABCDEF";
+                        var color = "#";
+                        for (var i = 0; i < 6; i++) {
+                            color += letters[Math.floor(Math.random() * 16)];
+                        }
+                        var oppositeColor = calculateOppositeColor(color);
+                        return { color: color, oppositeColor: oppositeColor };
+                    }
+
+                    function calculateOppositeColor(color) {
+                        color = color.slice(1);
+                        var oppositeColor = "";
+                        for (var i = 0; i < 6; i += 2) {
+                            var channelValue = parseInt(color.substr(i, 2), 16);
+                            var oppositeChannelValue = 255 - channelValue;
+                            var oppositeChannelHex = oppositeChannelValue.toString(16).padStart(2, '0');
+                            oppositeColor += oppositeChannelHex;
+                        }
+                        oppositeColor = "#" + oppositeColor;
+                        return oppositeColor;
+                    }
+                } else {
+                    // User is not authorized as an admin
+                    // Redirect to a different page or display an error message
+                    window.location.href = "unauthorized.html";
+                }
+            });
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+        </script>
+</body>
+
+</html>

@@ -1,0 +1,327 @@
+h1,
+h2 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  color: #023075;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #ffffff, #c5c5c5);
+}
+
+
+@media (max-width: 576px) {
+  .btn {
+    font-size: 12px;
+  }
+}
+
+@media (min-width: 577px) and (max-width: 991px) {
+  .btn {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 992px) {
+  .btn {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .c-big .right-pane {
+    display: none !important;
+  }
+
+  .c-big #showUsersButton,
+  #showAccountsButton,
+  #showTransactionsButton {
+    pointer-events: none;
+    opacity: 0.5;
+
+  }
+}
+
+.table>thead>tr>th {
+  background-color: rgb(48, 124, 138);
+}
+
+.table {
+  background-color: none;
+  flex: auto;
+  border-radius: 10px;
+}
+
+#memoSendBtn,
+#memoClearBtn,
+#memoUploadText,
+#currencyAddBtn,
+.fileBtn {
+  color: rgb(129, 118, 104);
+  border: 2px rgb(129, 118, 104) solid;
+  margin-left: 8px;
+}
+
+#memoSendBtn:hover {
+  background-color: rgb(53, 51, 32);
+  color: #fff;
+}
+
+#memoSendBtn:active {
+  background-color: rgb(53, 51, 32);
+  color: #fff;
+  border-color: inherit;
+}
+
+#memo-box {
+  height: 10%;
+}
+
+#memo-text {
+  font-size: 14px;
+  width: 100%;
+  height: 100%;
+  resize: none;
+  max-width: 100%;
+  max-height: 100%;
+  border: 2px rgb(129, 118, 104) solid;
+  background-color: rgb(252, 248, 196);
+}
+
+#memo-text:focus {
+  outline: none;
+}
+
+#memoContainer {
+  display: inline-block;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  max-height: 200px;
+}
+
+#file-menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+.bank-header {
+  height: 100px;
+  background-color: hwb(0 100% 0%);
+  border-bottom: 2px rgb(154, 157, 160) solid;
+}
+
+.navbar {
+  border-bottom: solid grey 3px;
+  background-color: rgb(177, 220, 255);
+}
+
+#currencyResult {
+  font: 18px bold;
+}
+
+.currencyApi {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background: linear-gradient(to bottom, #ffffff, #dce6e9);
+  border-radius: 4px;
+  height: 280px;
+}
+
+#currencyFrom,
+#currencyTo {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+#currencyInput {
+  width: 100px;
+}
+
+.currencySelectBox {
+  font-size: 16px;
+}
+
+#currencyGoButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 40px;
+  height: 20px;
+  font-size: 12px;
+}
+
+#userById input[type="text"] {
+  width: 250px;
+}
+
+#userById {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.vert-line {
+  border-left: 2px solid black;
+  height: 130px;
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+#userById .btn {
+  margin-bottom: 10px;
+}
+
+.bold-cell {
+  font-weight: bold;
+}
+
+.left-pane {
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 340px;
+}
+
+.lp-menu {
+  margin-top: 18px;
+  background: linear-gradient(to bottom, #ffffff, #dce6e9);
+  border-radius: 4px;
+  height: 270px;
+}
+
+.lp-lower {
+  margin-top: 10px;
+  border-radius: 5px;
+  height: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: small;
+  font-weight: bold;
+}
+
+.pane-style {
+  border: solid hwb(208 65% 29%) 1px;
+  box-shadow: 2px 2px 5px 1px #5d8ed6;
+  background: linear-gradient(to bottom, #ffffff, #dce6e9);
+
+}
+
+.left-pane button {
+  margin-top: 9px;
+  margin-bottom: 5px;
+  padding-top: 8px;
+  background-color: #a2d2f3;
+  color: #333;
+  width: 65%;
+  border: none;
+}
+
+#rp-top {
+  height: 65%;
+  overflow-y: auto;
+}
+
+#rp-bot {
+  height: 35%;
+  border-top: solid rgb(177, 180, 187);
+  margin-top: 20px;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.rp-getinfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 20px;
+}
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.right-pane {
+  background: linear-gradient(to bottom, #ffffff, #dce6e9);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+
+
+.table thead {
+  position: sticky;
+  top: 0;
+  background-color: rgb(46, 46, 46);
+  color: white;
+  z-index: 1;
+}
+
+.col-3.left-pane {
+  border: none;
+}
+
+.left-pane button.selected {
+  background-color: #2579be;
+  color: #fff;
+  box-shadow: 2px 2px 5px 1px #023075;
+}
+
+.bold-row {
+  font-weight: bold;
+}
+
+.accTransactions {
+  flex-grow: 1;
+  padding-right: 10px;
+}
+
+
+.btn {
+  margin-bottom: 30px;
+}
+
+.container {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.c-big {
+  overflow-y: auto;
+  padding: 10px;
+  margin: 30px;
+  height: calc(100vh - 210px);
+  width: calc(100vw -20px);
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+#accTransactionTable>thead>tr>th {
+  background-color: rgb(143, 192, 238);
+  color: #40494e
+}
+
+#user-confirm {
+  font-weight: bold;
+  color: green;
+}
